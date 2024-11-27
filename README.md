@@ -205,16 +205,29 @@ The term "compile-time" comes from when the decision about which method to call 
 
 Based on this information, it determines at compile time (before the program runs) which method should be called. If no matching method is found, you'll get a compilation error.
 
-### DIY Exercise: MessageFormatter
-Create a class MessageFormatter that demonstrates method overloading:
+### DIY Exercise: Shop Price Calculator
 
-1. Create methods that format messages in different ways:
-   - format(String message) - returns message in uppercase
-   - format(String message, boolean uppercase) - returns message in upper or lowercase
-   - format(String message, String prefix) - returns message with prefix
-   - format(String message, String prefix, String suffix) - returns message with prefix and suffix
+Create a price calculator for a small shop that needs to handle various types of discounts. Your calculator should help the shop owner quickly determine final prices after applying different combinations of discounts.
 
-2. In your main method, demonstrate calling each version of the format method with appropriate arguments.
+Create a PriceCalculator class with these overloaded methods:
+
+1. Create methods to calculate prices in different scenarios:
+   * calculatePrice(double basePrice) - returns the regular price with no discount
+   * calculatePrice(double basePrice, double discountPercent) - returns price after applying a percentage discount
+   * calculatePrice(double basePrice, boolean hasStudentId) - returns price with student discount ($5 off with valid ID)
+   * calculatePrice(double basePrice, double discountPercent, boolean hasStudentId) - returns price with both percentage and student discounts applied
+
+2. In your main method:
+   * Create a test case with an item priced at $50.00
+   * Show how the price changes with:
+     - No discount
+     - 10% discount
+     - Student discount
+     - Both 10% discount and student discount
+   * Print all results clearly showing which discount was applied
+
+This exercise will help you understand how method overloading can solve real business problems by handling different discount scenarios with clearly named methods.
+
 ## 3. Reference Type Conversions
 
 ### Learning Objective
