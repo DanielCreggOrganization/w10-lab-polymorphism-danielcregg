@@ -252,7 +252,7 @@ In Java, an object can be referenced through its own class type or any of its pa
 
 ```java
 public class Vehicle {
-    protected String model;
+    private String model;
     
     public Vehicle(String model) {
         this.model = model;
