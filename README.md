@@ -2,11 +2,11 @@
 
 ## Table of Contents
 1. [Definition and Basics of Polymorphism](#1-definition-and-basics-of-polymorphism)
-2. [Compile-time Polymorphism (Method Overloading)](#2-compile-time-polymorphism-(Method Overloading))
-3. [Runtime Polymorphism](#4-runtime-polymorphism)
-4. [Reference Type Conversions](#5-reference-type-conversions)
-5. [Heterogeneous Collections](#6-heterogeneous-collections)
-6. [Benefits of Polymorphism](#7-benefits-of-polymorphism)
+2. [Compile-time Polymorphism (Method Overloading)](#2-compile-time-polymorphism-method-overloading)
+3. [Runtime Polymorphism](#3-runtime-polymorphism)
+4. [Reference Type Conversions](#4-reference-type-conversions)
+5. [Heterogeneous Collections](#5-heterogeneous-collections)
+6. [Benefits of Polymorphism](#6-benefits-of-polymorphism)
 
 ## Lab Setup
 1. Create a package called `ie.atu.polymorphism`
