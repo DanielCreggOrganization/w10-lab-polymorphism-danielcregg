@@ -1,7 +1,3 @@
-I'll create a comprehensive lab on Java Polymorphism following a similar structure to the provided sample.
-
-
-
 # Java Polymorphism Lab
 
 ## Table of Contents
