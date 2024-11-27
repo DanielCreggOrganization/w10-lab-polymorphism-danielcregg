@@ -24,7 +24,7 @@ Let's see this in action with a simple example using shapes.
 
 ```java
 public class Shape {
-    protected String color;
+    private String color;
     
     public Shape(String color) {
         this.color = color;
