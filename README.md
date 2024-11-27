@@ -528,6 +528,11 @@ public class Main {
 4. Flexibility: Easy to add new animal types without changing existing code
 5. Code Organization: Common behaviors in parent class, specific in subclasses
 
+### DIY Exercise: Shape Type Conversion
+1. Add a fourth animal class
+2. Add the new animal to the shelter
+3. Add a method to the AnimalShelter class to print all animal breeds and names
+
 ## 5. Benefits of Polymorphism
 
 ### Learning Objective
