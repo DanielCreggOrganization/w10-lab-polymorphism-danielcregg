@@ -15,113 +15,71 @@
 ## 1. Runtime Polymorphism: Understanding "Many Forms"
 
 ### Learning Objective
-Understand how polymorphism allows objects to take different forms at runtime, making programs more flexible and reusable.
+Understand how polymorphism allows objects to take different forms at runtime through method overriding.
 
 ### Explanation
-The word "polymorphism" comes from Greek, meaning "many forms." In Java, this concept allows us to write code that can work with objects of different types as if they were the same type, as long as they share a common parent class. Think of it like a family - while everyone in a family is different, they all respond to their family name.
+The word "polymorphism" comes from Greek, meaning "many forms." In Java, this concept allows us to write methods that can work differently depending on the type of object that uses them. Think of it like a universal remote control - while the "volume up" button does the same basic job (increase volume), it works slightly differently for each device it controls.
 
-Consider a real-world example: When you press the "play" button on different devices (phone, TV, radio), they all understand the command "play" but respond differently. This is polymorphism in action - same command, different behaviors based on the type of object.
-
-### Example: Animal Kingdom Hierarchy
+Let's see this in action with a simple example using shapes.
 
 ```java
-public class Animal {
-    protected String name;
-    protected int age;
+public class Shape {
+    protected String color;
     
-    public Animal(String name, int age) {
-        this.name = name;
-        this.age = age;
+    public Shape(String color) {
+        this.color = color;
     }
     
-    public void makeSound() {
-        System.out.println(name + " makes a generic sound");
+    public void draw() {
+        System.out.println("Drawing a shape in " + color);
     }
     
-    public void move() {
-        System.out.println(name + " moves around");
-    }
-    
-    public String getInfo() {
-        return name + " (" + age + " years old)";
+    public double getArea() {
+        return 0.0;  // Base implementation
     }
 }
 ```
 
 ```java
-public class Dog extends Animal {
-    private String breed;
+public class Circle extends Shape {
+    private double radius;
     
-    public Dog(String name, int age, String breed) {
-        super(name, age);
-        this.breed = breed;
+    public Circle(String color, double radius) {
+        super(color);
+        this.radius = radius;
     }
     
     @Override
-    public void makeSound() {
-        System.out.println(name + " barks: Woof! Woof!");
+    public void draw() {
+        System.out.println("Drawing a " + color + " circle with radius " + radius);
     }
     
     @Override
-    public void move() {
-        System.out.println(name + " runs on four legs");
-    }
-    
-    // Dog-specific method
-    public void fetch() {
-        System.out.println(name + " fetches the ball");
+    public double getArea() {
+        return Math.PI * radius * radius;
     }
 }
 ```
 
 ```java
-public class Cat extends Animal {
-    private boolean isIndoor;
+public class Rectangle extends Shape {
+    private double width;
+    private double height;
     
-    public Cat(String name, int age, boolean isIndoor) {
-        super(name, age);
-        this.isIndoor = isIndoor;
+    public Rectangle(String color, double width, double height) {
+        super(color);
+        this.width = width;
+        this.height = height;
     }
     
     @Override
-    public void makeSound() {
-        System.out.println(name + " meows: Meow!");
+    public void draw() {
+        System.out.println("Drawing a " + color + " rectangle " + width + "x" + height);
     }
     
     @Override
-    public void move() {
-        System.out.println(name + " prowls gracefully");
-    }
-    
-    // Cat-specific method
-    public void climb() {
-        System.out.println(name + " climbs up high");
-    }
-}
-```
-
-```java
-public class Bird extends Animal {
-    private double wingspan;
-    
-    public Bird(String name, int age, double wingspan) {
-        super(name, age);
-        this.wingspan = wingspan;
-    }
-    
-    @Override
-    public void makeSound() {
-        System.out.println(name + " chirps: Tweet! Tweet!");
-    }
-    
-    @Override
-    public void move() {
-        System.out.println(name + " flies through the air");
-    }
-    
-    // Bird-specific method
-    public void soar() {
-        System.out.println(name + " soars with " + wingspan + "cm wingspan");
+    public double getArea() {
+        return width * height;
     }
 }
 ```
@@ -129,66 +87,46 @@ public class Bird extends Animal {
 ```java
 public class Main {
     public static void main(String[] args) {
-        // Create an array of Animals (demonstrating polymorphism)
-        Animal[] animals = new Animal[4];
-        animals[0] = new Dog("Buddy", 5, "Golden Retriever");
-        animals[1] = new Cat("Whiskers", 3, true);
-        animals[2] = new Bird("Tweety", 1, 15.5);
-        animals[3] = new Dog("Rex", 7, "German Shepherd");
+        // Create some shapes
+        Shape circle = new Circle("red", 5.0);
+        Shape rectangle = new Rectangle("blue", 4.0, 6.0);
         
-        // Demonstrate polymorphic behavior
-        System.out.println("Animals making sounds:");
-        for (Animal animal : animals) {
-            System.out.println(animal.getInfo());
-            animal.makeSound();
-            animal.move();
-            System.out.println("---------------");
-        }
+        // Demonstrate method overriding
+        circle.draw();      // Will call Circle's draw method
+        rectangle.draw();   // Will call Rectangle's draw method
         
-        // Demonstrate type-specific behavior
-        System.out.println("\nSpecial behaviors:");
-        for (Animal animal : animals) {
-            if (animal instanceof Dog) {
-                ((Dog) animal).fetch();
-            } else if (animal instanceof Cat) {
-                ((Cat) animal).climb();
-            } else if (animal instanceof Bird) {
-                ((Bird) animal).soar();
-            }
-        }
+        // Demonstrate polymorphic method calls
+        System.out.println("Circle area: " + circle.getArea());
+        System.out.println("Rectangle area: " + rectangle.getArea());
     }
 }
 ```
 
 ### Key Concepts Illustrated
-1. Common Interface: All animals share basic behaviors (makeSound, move)
-2. Different Implementations: Each animal type implements these behaviors differently
-3. Type-Specific Methods: Each animal type can also have its own unique methods
-4. Runtime Behavior: The actual method called depends on the object's type at runtime
+1. Method Overriding: Both Circle and Rectangle provide their own versions of draw() and getArea()
+2. Runtime Behavior: The correct method version is called based on the actual object type
+3. Common Interface: Both shapes can be treated as Shape references but maintain their specific behaviors
+4. Parent Class Reference: We can store a Circle or Rectangle in a Shape variable
 
-### DIY Exercise: University Community
-Create a hierarchy of university community members:
+### DIY Exercise: Basic Shapes
+Create a simple shape hierarchy that demonstrates method overriding:
 
-1. Create a base Person class with:
-   - Properties: name, id
-   - Methods: introduce(), getRole()
+1. Create a base Shape class with:
+   - A color property
+   - Methods: getPerimeter() and describe()
 
-2. Create three subclasses:
-   - Student (with major, year)
-   - Professor (with department, researchArea)
-   - Staff (with department, jobTitle)
+2. Create two subclasses (choose from):
+   - Square
+   - Triangle
+   - Circle
 
-3. Each subclass should:
-   - Override introduce() to provide specific information
-   - Override getRole() to return their role
-   - Add at least one unique method
+3. In each subclass:
+   - Override getPerimeter() to calculate the correct perimeter
+   - Override describe() to print shape-specific information
 
 4. Create a main program that:
-   - Creates an array of Person objects
-   - Demonstrates polymorphic behavior
-   - Shows how each type can be treated both uniformly and specifically
-
-This exercise will help you understand how polymorphism enables both uniform treatment of different objects and specific behaviors when needed.
+   - Creates instances of your shapes
+   - Calls methods on them to demonstrate overriding
 
 ## 2. Compile-time Polymorphism (Method Overloading)
 
@@ -278,10 +216,13 @@ Create a class MessageFormatter that demonstrates method overloading:
    - format(String message, String prefix, String suffix) - returns message with prefix and suffix
 
 2. In your main method, demonstrate calling each version of the format method with appropriate arguments.
+## 3. Reference Type Conversions
 
-This exercise will help you practice creating methods with different signatures and understand how the compiler chooses the correct method to call.
+### Learning Objective
+Understand how objects can be referenced through different types in the inheritance hierarchy and how to safely convert between these types.
 
-## 4. Reference Type Conversions
+### Explanation
+In Java, an object can be referenced through its own class type or any of its parent class types. This is like how a Square can always be referred to as a Shape - it's still a Square, but we're choosing to view it more generally. This ability to reference objects through different types is fundamental to polymorphism and comes in two forms: upcasting and downcasting.
 
 ### Example
 
@@ -293,293 +234,284 @@ public class Vehicle {
         this.model = model;
     }
     
-    public void start() {
-        System.out.println(model + " is starting");
+    public void startEngine() {
+        System.out.println("Starting engine of " + model);
     }
 }
 ```
 
 ```java
 public class Car extends Vehicle {
-    public Car(String model) {
+    private int numberOfDoors;
+    
+    public Car(String model, int numberOfDoors) {
         super(model);
+        this.numberOfDoors = numberOfDoors;
     }
     
     public void drive() {
-        System.out.println(model + " is driving on the road");
-    }
-}
-```
-
-```java
-public class Motorcycle extends Vehicle {
-    public Motorcycle(String model) {
-        super(model);
+        System.out.println(model + " is driving smoothly on the road");
     }
     
-    public void wheelie() {
-        System.out.println(model + " is doing a wheelie!");
+    @Override
+    public void startEngine() {
+        System.out.println("Starting " + numberOfDoors + "-door " + model + " with key fob");
     }
 }
 ```
 
 ```java
-public class TypeConversionDemo {
+public class Main {
     public static void main(String[] args) {
-        // Upcasting - implicit and safe
-        Car car = new Car("Tesla Model 3");
+        // Upcasting - implicit (automatic) conversion
+        Car car = new Car("Toyota Camry", 4);
         Vehicle vehicle = car;  // Upcasting happens automatically
         
-        vehicle.start();        // Works fine
-        // vehicle.drive();     // Won't compile - drive() not in Vehicle
+        // Both call Car's version of startEngine
+        car.startEngine();      // Calls Car's method
+        vehicle.startEngine();   // Also calls Car's method
         
-        // Safe downcasting
+        // This works fine - calling through Car reference
+        car.drive();
+        
+        // This won't compile - Vehicle reference doesn't know about drive()
+        // vehicle.drive();  // Compilation error!
+        
+        // Safe downcasting using instanceof
         if (vehicle instanceof Car) {
-            Car downcastCar = (Car) vehicle;  // Explicit casting
-            downcastCar.drive();              // Now works fine
+            Car downcasted = (Car) vehicle;  // Explicit casting
+            downcasted.drive();              // Now we can call Car-specific methods
         }
         
-        // Demonstration of unsafe casting
-        Vehicle genericVehicle = new Vehicle("Generic");
-        // Car wrongCar = (Car) genericVehicle;  // Throws ClassCastException!
+        // Example of unsafe downcasting
+        Vehicle genericVehicle = new Vehicle("Generic Vehicle");
         
-        // Array of vehicles containing different types
-        Vehicle[] vehicles = new Vehicle[3];
-        vehicles[0] = new Car("Toyota Camry");
-        vehicles[1] = new Motorcycle("Harley Davidson");
-        vehicles[2] = new Car("Honda Civic");
+        // This would compile but throw a ClassCastException at runtime!
+        // Car wrongCast = (Car) genericVehicle;
         
-        // Process all vehicles, checking for specific types
-        for (Vehicle v : vehicles) {
-            v.start();  // Common method for all vehicles
-            
-            // Specific processing based on type
-            if (v instanceof Car) {
-                ((Car) v).drive();
-            } else if (v instanceof Motorcycle) {
-                ((Motorcycle) v).wheelie();
-            }
+        // Proper way to prevent runtime errors
+        if (genericVehicle instanceof Car) {
+            Car safeCast = (Car) genericVehicle;  // This block won't execute
+        } else {
+            System.out.println("Not a Car - casting prevented!");
         }
     }
 }
 ```
-## 5. Heterogeneous Collections
+
+### Key Concepts
+1. Upcasting (Widening):
+   - Converting from a more specific type to a more general type
+   - Always safe and happens automatically
+   - Might lose access to specific methods
+   - Example: Car to Vehicle
+
+2. Downcasting (Narrowing):
+   - Converting from a more general type to a more specific type
+   - Requires explicit casting
+   - Can cause runtime errors if not done carefully
+   - Should always use instanceof to check first
+   - Example: Vehicle to Car
+
+### DIY Exercise: Shape Type Conversion
+Create a program that demonstrates type conversions with shapes:
+
+1. Create these classes:
+   - Shape (base class with getArea())
+   - Circle (with radius and getCircumference())
+   - Square (with side and getDiagonal())
+
+2. Demonstrate:
+   - Upcasting from Circle and Square to Shape
+   - Safe downcasting using instanceof
+   - What happens when attempting unsafe downcasting
+   - How method overriding works with different reference types
+
+## 4. Heterogeneous Collections
 
 ### Learning Objective
-Understand how to use polymorphism to create and manage collections containing different types of objects that share a common parent class, a powerful real-world application of polymorphism.
+Learn how polymorphism enables us to work with collections containing different types of objects that share a common parent class.
 
-### Example: Media Library System
-Let's create a media library system that can handle different types of media items. This example shows how polymorphism allows us to manage diverse objects in a single collection.
+### Example: Animal Kingdom
 
 ```java
-public class MediaItem {
-    private String title;
-    private int year;
-    private double price;
+public class Animal {
+    protected String name;
+    protected int age;
     
-    public MediaItem(String title, int year, double price) {
-        this.title = title;
-        this.year = year;
-        this.price = price;
+    public Animal(String name, int age) {
+        this.name = name;
+        this.age = age;
     }
     
-    public void play() {
-        System.out.println("Playing: " + title);
+    public void makeSound() {
+        System.out.println(name + " makes a sound");
+    }
+    
+    public void move() {
+        System.out.println(name + " moves around");
     }
     
     public String getInfo() {
-        return title + " (" + year + ") - $" + price;
-    }
-    
-    public double getPrice() {
-        return price;
+        return name + " (" + age + " years old)";
     }
 }
 ```
 
 ```java
-public class Book extends MediaItem {
-    private int pages;
-    private String author;
+public class Dog extends Animal {
+    private String breed;
     
-    public Book(String title, int year, double price, String author, int pages) {
-        super(title, year, price);
-        this.author = author;
-        this.pages = pages;
+    public Dog(String name, int age, String breed) {
+        super(name, age);
+        this.breed = breed;
     }
     
     @Override
-    public void play() {
-        System.out.println("Opening e-book reader for: " + getInfo());
-        System.out.println("Written by: " + author);
-    }
-    
-    public void readPage(int pageNumber) {
-        if (pageNumber <= pages) {
-            System.out.println("Reading page " + pageNumber);
-        } else {
-            System.out.println("Page number exceeds book length");
-        }
-    }
-}
-```
-
-```java
-public class Movie extends MediaItem {
-    private String director;
-    private int duration;  // in minutes
-    
-    public Movie(String title, int year, double price, String director, int duration) {
-        super(title, year, price);
-        this.director = director;
-        this.duration = duration;
+    public void makeSound() {
+        System.out.println(name + " barks: Woof! Woof!");
     }
     
     @Override
-    public void play() {
-        System.out.println("Starting movie player for: " + getInfo());
-        System.out.println("Directed by: " + director);
-        System.out.println("Duration: " + duration + " minutes");
+    public void move() {
+        System.out.println(name + " runs on four legs");
     }
     
-    public void showSubtitles(boolean enabled) {
-        System.out.println("Subtitles " + (enabled ? "enabled" : "disabled"));
+    public void fetch() {
+        System.out.println(name + " the " + breed + " fetches the ball");
     }
 }
 ```
 
 ```java
-public class MusicAlbum extends MediaItem {
-    private String artist;
-    private int tracks;
+public class Cat extends Animal {
+    private boolean isIndoor;
     
-    public MusicAlbum(String title, int year, double price, String artist, int tracks) {
-        super(title, year, price);
-        this.artist = artist;
-        this.tracks = tracks;
+    public Cat(String name, int age, boolean isIndoor) {
+        super(name, age);
+        this.isIndoor = isIndoor;
     }
     
     @Override
-    public void play() {
-        System.out.println("Starting music player for: " + getInfo());
-        System.out.println("Artist: " + artist);
-        System.out.println("Number of tracks: " + tracks);
+    public void makeSound() {
+        System.out.println(name + " meows: Meow!");
     }
     
-    public void shuffle() {
-        System.out.println("Shuffling tracks for " + getInfo());
+    @Override
+    public void move() {
+        System.out.println(name + " prowls gracefully");
+    }
+    
+    public void scratch() {
+        System.out.println(name + " scratches the " + 
+            (isIndoor ? "furniture" : "tree"));
     }
 }
 ```
 
 ```java
-public class Library {
-    private List<MediaItem> mediaItems;
+public class Bird extends Animal {
+    private double wingspan;
     
-    public Library() {
-        this.mediaItems = new ArrayList<>();
+    public Bird(String name, int age, double wingspan) {
+        super(name, age);
+        this.wingspan = wingspan;
     }
     
-    public void addItem(MediaItem item) {
-        mediaItems.add(item);
+    @Override
+    public void makeSound() {
+        System.out.println(name + " chirps: Tweet! Tweet!");
     }
     
-    public void playAll() {
-        System.out.println("\nPlaying all media items:");
-        for (MediaItem item : mediaItems) {
-            item.play();
-            System.out.println("------------------------");
+    @Override
+    public void move() {
+        System.out.println(name + " flies with its " + wingspan + "cm wingspan");
+    }
+    
+    public void soar() {
+        System.out.println(name + " soars high in the sky");
+    }
+}
+```
+
+```java
+public class AnimalShelter {
+    private List<Animal> animals;
+    
+    public AnimalShelter() {
+        this.animals = new ArrayList<>();
+    }
+    
+    public void addAnimal(Animal animal) {
+        animals.add(animal);
+    }
+    
+    public void makeAllSounds() {
+        System.out.println("\nAll animals making sounds:");
+        for (Animal animal : animals) {
+            animal.makeSound();
         }
     }
     
-    public void displayCatalog() {
-        System.out.println("\nLibrary Catalog:");
-        for (MediaItem item : mediaItems) {
-            System.out.println(item.getInfo());
-        }
-    }
-    
-    public double calculateTotalValue() {
-        double total = 0;
-        for (MediaItem item : mediaItems) {
-            total += item.getPrice();
-        }
-        return total;
-    }
-    
-    // Method showing type-specific operations
-    public void performSpecialActions() {
-        System.out.println("\nPerforming special actions:");
-        for (MediaItem item : mediaItems) {
-            if (item instanceof Book) {
-                Book book = (Book) item;
-                book.readPage(1);
-            } else if (item instanceof Movie) {
-                Movie movie = (Movie) item;
-                movie.showSubtitles(true);
-            } else if (item instanceof MusicAlbum) {
-                MusicAlbum album = (MusicAlbum) item;
-                album.shuffle();
+    public void exerciseAnimals() {
+        System.out.println("\nExercising all animals:");
+        for (Animal animal : animals) {
+            // Common behavior
+            animal.move();
+            
+            // Type-specific behavior
+            if (animal instanceof Dog) {
+                ((Dog) animal).fetch();
+            } else if (animal instanceof Cat) {
+                ((Cat) animal).scratch();
+            } else if (animal instanceof Bird) {
+                ((Bird) animal).soar();
             }
+            
+            System.out.println("---------------");
         }
     }
 }
 ```
 
 ```java
-public class LibraryDemo {
+public class Main {
     public static void main(String[] args) {
-        Library library = new Library();
+        AnimalShelter shelter = new AnimalShelter();
         
-        // Adding different types of media items
-        library.addItem(new Book("Clean Code", 2008, 49.99, "Robert Martin", 464));
-        library.addItem(new Movie("The Matrix", 1999, 19.99, "Wachowski Sisters", 136));
-        library.addItem(new MusicAlbum("Dark Side of the Moon", 1973, 29.99, "Pink Floyd", 10));
-        library.addItem(new Book("Design Patterns", 1994, 54.99, "Gang of Four", 395));
+        // Adding different types of animals
+        shelter.addAnimal(new Dog("Buddy", 5, "Golden Retriever"));
+        shelter.addAnimal(new Cat("Whiskers", 3, true));
+        shelter.addAnimal(new Bird("Tweety", 1, 15.5));
+        shelter.addAnimal(new Dog("Rex", 7, "German Shepherd"));
         
-        // Demonstrate various operations on the collection
-        library.displayCatalog();
-        library.playAll();
-        library.performSpecialActions();
+        // Demonstrate common behaviors
+        shelter.makeAllSounds();
         
-        System.out.printf("\nTotal value of library: $%.2f%n", 
-                         library.calculateTotalValue());
+        // Demonstrate type-specific behaviors
+        shelter.exerciseAnimals();
     }
 }
 ```
 
-### Why This is Powerful
-1. Single Collection for Multiple Types: The Library class can manage all media types using a single List<MediaItem>.
-2. Common Interface: All items can be played and provide info through common methods.
-3. Type-Specific Behavior: Each subclass can implement play() differently and add its own unique methods.
-4. Easy Extension: New media types can be added by creating new subclasses of MediaItem.
-5. Simplified Management: Common operations can be performed on all items regardless of their specific type.
+### Key Benefits of Heterogeneous Collections
+1. Single Collection Type: Store different but related objects in one collection
+2. Unified Processing: Handle different types uniformly when needed
+3. Type-Specific Operations: Still possible through instanceof and casting
+4. Flexibility: Easy to add new animal types without changing existing code
+5. Code Organization: Common behaviors in parent class, specific in subclasses
 
-### DIY Exercise: School Management System
-Create a school management system that demonstrates heterogeneous collections:
-
-1. Create a base Person class with:
-   - Basic attributes (name, id)
-   - Common methods (getInfo, introduce)
-
-2. Create specific classes:
-   - Student (with grade, major)
-   - Teacher (with subject, yearsOfExperience)
-   - Staff (with role, department)
-
-3. Create a School class that:
-   - Maintains a single list of all people
-   - Can add any type of person
-   - Can display all people's information
-   - Can find people by role
-   - Can perform role-specific operations
-## 6. Benefits of Polymorphism
+## 5. Benefits of Polymorphism
 
 ### Learning Objective
-Understand the practical advantages of using polymorphism in real-world applications and how it improves code design, maintainability, and reusability.
+Understand how polymorphism makes our code more flexible, maintainable, and reusable through a practical example of a drawing application.
+
+### Explanation
+Let's explore how polymorphism helps us create better software by building a simple drawing application. This example will demonstrate how polymorphism allows us to write code that's both powerful and easy to maintain. Think of it like building with LEGO blocks - we can create complex structures because each piece knows how to connect with others in a standard way.
 
 ### Example: Drawing Application
-Let's create a simple drawing application that demonstrates the key benefits of polymorphism. This example will show how polymorphism helps create flexible, maintainable code.
+
+First, let's create a basic Point class to handle coordinates:
 
 ```java
 public class Point {
@@ -601,135 +533,184 @@ public class Point {
 }
 ```
 
+Now, let's create our base Shape class with common behaviors:
+
 ```java
 public class Shape {
     protected Point position;
     protected String color;
+    protected boolean filled;
     
-    public Shape(Point position, String color) {
+    public Shape(Point position, String color, boolean filled) {
         this.position = position;
         this.color = color;
+        this.filled = filled;
     }
     
+    // Common behavior for all shapes
     public void draw() {
-        System.out.println("Drawing a shape at " + position + " in " + color);
+        System.out.println("Drawing a " + (filled ? "filled " : "outlined ") + 
+                         color + " shape at " + position);
     }
     
-    public void move(int newX, int newY) {
-        position = new Point(newX, newY);
-        System.out.println("Moving shape to " + position);
+    // Common movement behavior
+    public void move(int deltaX, int deltaY) {
+        Point newPosition = new Point(
+            position.getX() + deltaX,
+            position.getY() + deltaY
+        );
+        position = newPosition;
+        System.out.println("Moved shape to " + position);
     }
     
-    public Point getPosition() {
-        return position;
+    // Each shape will implement its own area calculation
+    public double getArea() {
+        return 0.0;  // Default implementation
     }
 }
 ```
 
+Let's create some specific shapes. Notice how each adds its own unique features while maintaining the common interface:
+
 ```java
 public class Circle extends Shape {
-    private int radius;
+    private double radius;
     
-    public Circle(Point center, String color, int radius) {
-        super(center, color);
+    public Circle(Point center, String color, boolean filled, double radius) {
+        super(center, color, filled);
         this.radius = radius;
     }
     
     @Override
     public void draw() {
-        System.out.println("Drawing a " + color + " circle at " + position + 
+        System.out.println("Drawing a " + (filled ? "filled " : "outlined ") + 
+                         color + " circle at " + position + 
                          " with radius " + radius);
+    }
+    
+    @Override
+    public double getArea() {
+        return Math.PI * radius * radius;
+    }
+    
+    // Circle-specific method
+    public double getCircumference() {
+        return 2 * Math.PI * radius;
     }
 }
 ```
 
 ```java
 public class Rectangle extends Shape {
-    private int width;
-    private int height;
+    private double width;
+    private double height;
     
-    public Rectangle(Point topLeft, String color, int width, int height) {
-        super(topLeft, color);
+    public Rectangle(Point topLeft, String color, boolean filled, 
+                    double width, double height) {
+        super(topLeft, color, filled);
         this.width = width;
         this.height = height;
     }
     
     @Override
     public void draw() {
-        System.out.println("Drawing a " + color + " rectangle at " + position + 
-                         " with width " + width + " and height " + height);
+        System.out.println("Drawing a " + (filled ? "filled " : "outlined ") + 
+                         color + " rectangle at " + position +
+                         " with dimensions " + width + "x" + height);
+    }
+    
+    @Override
+    public double getArea() {
+        return width * height;
+    }
+    
+    // Rectangle-specific method
+    public double getDiagonal() {
+        return Math.sqrt(width * width + height * height);
     }
 }
 ```
 
-```java
-public class Triangle extends Shape {
-    private int base;
-    private int height;
-    
-    public Triangle(Point apex, String color, int base, int height) {
-        super(apex, color);
-        this.base = base;
-        this.height = height;
-    }
-    
-    @Override
-    public void draw() {
-        System.out.println("Drawing a " + color + " triangle at " + position + 
-                         " with base " + base + " and height " + height);
-    }
-}
-```
+Now, let's create a DrawingBoard class that demonstrates how polymorphism makes our code more maintainable:
 
 ```java
 public class DrawingBoard {
     private List<Shape> shapes;
+    private String name;
     
-    public DrawingBoard() {
+    public DrawingBoard(String name) {
+        this.name = name;
         this.shapes = new ArrayList<>();
     }
     
-    // Demonstrates code reusability - works with any shape
+    // Demonstrates flexibility - accepts any shape
     public void addShape(Shape shape) {
         shapes.add(shape);
+        System.out.println("Added new shape to " + name);
     }
     
-    // Demonstrates flexibility - treats all shapes uniformly
+    // Demonstrates code reuse - works with all shapes
     public void drawAll() {
-        System.out.println("\nDrawing all shapes:");
+        System.out.println("\nDrawing all shapes on " + name + ":");
         for (Shape shape : shapes) {
-            shape.draw();  // Each shape knows how to draw itself
+            shape.draw();
         }
     }
     
-    // Demonstrates maintainability - single point of modification
-    public void moveAllShapes(int deltaX, int deltaY) {
+    // Demonstrates uniform treatment with type-specific handling
+    public void printShapeDetails() {
+        System.out.println("\nShape details on " + name + ":");
         for (Shape shape : shapes) {
-            Point currentPos = shape.getPosition();
-            shape.move(currentPos.getX() + deltaX, currentPos.getY() + deltaY);
+            System.out.printf("Area: %.2f square units\n", shape.getArea());
+            
+            // Demonstrate type-specific operations
+            if (shape instanceof Circle) {
+                Circle circle = (Circle) shape;
+                System.out.printf("Circumference: %.2f units\n", 
+                                circle.getCircumference());
+            } else if (shape instanceof Rectangle) {
+                Rectangle rectangle = (Rectangle) shape;
+                System.out.printf("Diagonal: %.2f units\n", 
+                                rectangle.getDiagonal());
+            }
+            System.out.println("---------------");
+        }
+    }
+    
+    // Demonstrates maintainability - single point for movement logic
+    public void moveAllShapes(int deltaX, int deltaY) {
+        System.out.println("\nMoving all shapes on " + name + ":");
+        for (Shape shape : shapes) {
+            shape.move(deltaX, deltaY);
         }
     }
 }
 ```
 
+Finally, let's see it all in action:
+
 ```java
 public class DrawingDemo {
     public static void main(String[] args) {
-        DrawingBoard board = new DrawingBoard();
+        DrawingBoard board = new DrawingBoard("My Drawing");
         
-        // Adding different shapes demonstrates polymorphism's flexibility
-        board.addShape(new Circle(new Point(10, 10), "red", 5));
-        board.addShape(new Rectangle(new Point(20, 20), "blue", 15, 10));
-        board.addShape(new Triangle(new Point(15, 15), "green", 8, 12));
+        // Creating various shapes
+        Shape circle = new Circle(new Point(10, 10), "red", true, 5.0);
+        Shape rectangle = new Rectangle(new Point(20, 20), "blue", false, 
+                                     15.0, 10.0);
         
-        // Drawing all shapes demonstrates uniform treatment
+        // Adding shapes to the board
+        board.addShape(circle);
+        board.addShape(rectangle);
+        
+        // Demonstrate various operations
         board.drawAll();
+        board.printShapeDetails();
         
-        // Moving all shapes demonstrates code reuse
-        System.out.println("\nMoving all shapes:");
+        // Move everything
         board.moveAllShapes(5, 5);
         
-        // Redraw to show new positions
+        // Show new positions
         board.drawAll();
     }
 }
@@ -737,62 +718,65 @@ public class DrawingDemo {
 
 ### Key Benefits Demonstrated
 
-1. **Code Reusability**
+Let's explore how this example showcases the major benefits of polymorphism:
+
+1. Code Reusability
    - The DrawingBoard class works with any shape through the common Shape interface
+   - Movement and drawing logic is written once but works for all shapes
    - New shape types can be added without changing the DrawingBoard code
-   - Common behaviors (like moving) are defined once in the parent class
 
-2. **Flexibility**
-   - Shapes can be treated uniformly when needed (drawing, moving)
-   - Each shape maintains its specific behavior when drawing
-   - New shapes can be added by extending the Shape class
-
-3. **Improved Maintenance**
-   - Changes to common behavior only need to be made in one place
-   - Each shape class is responsible for its own specific implementation
+2. Flexibility
+   - Each shape can implement drawing and area calculation differently
+   - New shapes can be easily added by extending the Shape class
    - The DrawingBoard doesn't need to know about specific shape types
 
-4. **Better Organization**
-   - Clear hierarchy of classes
-   - Related code is grouped together
-   - Common behaviors are centralized
+3. Improved Maintenance
+   - Common behaviors are defined once in the Shape class
+   - Changes to shared behavior only need to be made in one place
+   - Each shape class is responsible for its own specific implementation
 
-5. **Runtime Flexibility**
-   - Objects can be treated according to their common interface
-   - Specific behaviors are determined at runtime
-   - Collections can hold mixed types of shapes
+4. Better Organization
+   - Clear hierarchy of classes with logical relationships
+   - Related code is grouped together in appropriate classes
+   - Common behaviors are centralized in the parent class
 
-### DIY Exercise: Simple Game System
-Create a game system that demonstrates these benefits:
+5. Runtime Adaptability
+   - The program can work with different combinations of shapes
+   - Type-specific behaviors can be accessed when needed
+   - New shape types can be added without modifying existing code
+
+### DIY Exercise: Create a Game System
+Develop a simple game system that puts all these benefits into practice:
 
 1. Create a base Character class with:
-   - Basic attributes (name, health, position)
-   - Common methods (move, attack, defend)
+   - Properties: name, health, position
+   - Methods: move(), attack(), defend()
 
 2. Create specific character types:
-   - Warrior (strong attack, weak defense)
-   - Archer (ranged attack, medium defense)
-   - Mage (magical attack, very weak defense)
+   - Warrior (high attack, high defense)
+   - Archer (medium attack, low defense)
+   - Mage (high attack, very low defense)
 
 3. Create a Game class that:
-   - Manages a list of characters
-   - Can process all character actions in each turn
-   - Demonstrates the benefits of polymorphism through:
-     * Code reuse in movement and combat systems
-     * Flexibility in character interactions
+   - Manages multiple characters
+   - Processes character actions each turn
+   - Demonstrates polymorphism benefits through:
+     * Code reuse in movement and combat
      * Easy addition of new character types
-     * Centralized game logic
-     * Runtime character behavior differences
+     * Uniform character management
+     * Type-specific special abilities
+
+This exercise will help you understand how polymorphism makes complex systems more manageable and extensible.
 
 ## Summary
-Through these examples and exercises, we've seen how polymorphism provides:
-- A way to write more flexible and reusable code
-- Simplified program structure and maintenance
-- The ability to treat different objects uniformly when needed
-- Easy extension of functionality through new subclasses
-- Better organization of related code
+Through these examples and exercises, we've seen how polymorphism:
+- Enables more flexible and reusable code
+- Simplifies program structure and maintenance
+- Allows uniform treatment of different objects
+- Facilitates easy extension through new subclasses
+- Promotes better code organization
 
-These benefits make polymorphism a crucial concept in object-oriented programming, enabling the creation of more maintainable and scalable applications.
+These benefits make polymorphism a fundamental concept in object-oriented programming, essential for creating maintainable and scalable applications.
 
 End of Lab
 ---
