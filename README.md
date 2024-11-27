@@ -20,6 +20,18 @@ Understand how polymorphism allows objects to take different forms at runtime th
 ### Explanation
 The word "polymorphism" comes from Greek, meaning "many forms." In Java, this concept allows us to write methods that can work differently depending on the type of object that uses them. Think of it like a universal remote control - while the "volume up" button does the same basic job (increase volume), it works slightly differently for each device it controls.
 
+Before we dive deeper, let's understand what makes a method unique - it's `signature`. A method signature consists of the method name and its parameter types (in order). For example, these two methods have different signatures even though they share the same name:
+```java
+public void displayInfo(String name) {
+    System.out.println("Name: " + name);
+}
+
+public void displayInfo(String name, int age) {
+    System.out.println("Name: " + name + ", Age: " + age);
+}
+```
+In runtime polymorphism, we often override methods that have the exact same signature in the child class. When you override a method, you're saying "I want to provide my own version of this behavior while keeping the same signature." Think of it like a universal remote control - while the "volume up" button does the same basic job (increase volume), it works slightly differently for each device it controls.
+
 Let's see this in action with a simple example using shapes.
 
 ```java
