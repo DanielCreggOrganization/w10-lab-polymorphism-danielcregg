@@ -42,6 +42,10 @@ public class Shape {
         this.color = color;
     }
     
+    public String getColor() {
+        return color;
+    }
+    
     public void draw() {
         System.out.println("Drawing a shape in " + color);
     }
@@ -50,9 +54,7 @@ public class Shape {
         return 0.0;  // Base implementation
     }
 }
-```
 
-```java
 public class Circle extends Shape {
     private double radius;
     
@@ -63,7 +65,7 @@ public class Circle extends Shape {
     
     @Override
     public void draw() {
-        System.out.println("Drawing a " + color + " circle with radius " + radius);
+        System.out.println("Drawing a " + getColor() + " circle with radius " + radius);
     }
     
     @Override
@@ -72,7 +74,6 @@ public class Circle extends Shape {
     }
 }
 ```
-
 ```java
 public class Rectangle extends Shape {
     private double width;
@@ -86,7 +87,7 @@ public class Rectangle extends Shape {
     
     @Override
     public void draw() {
-        System.out.println("Drawing a " + color + " rectangle " + width + "x" + height);
+        System.out.println("Drawing a " + getColor() + " rectangle " + width + "x" + height);
     }
     
     @Override
@@ -95,7 +96,6 @@ public class Rectangle extends Shape {
     }
 }
 ```
-
 ```java
 public class Main {
     public static void main(String[] args) {
