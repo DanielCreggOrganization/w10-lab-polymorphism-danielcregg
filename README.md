@@ -258,12 +258,15 @@ public class Vehicle {
         this.model = model;
     }
     
+    public String getModel() {
+        return model;
+    }
+    
     public void startEngine() {
         System.out.println("Starting engine of " + model);
     }
 }
 ```
-
 ```java
 public class Car extends Vehicle {
     private int numberOfDoors;
@@ -274,16 +277,15 @@ public class Car extends Vehicle {
     }
     
     public void drive() {
-        System.out.println(model + " is driving smoothly on the road");
+        System.out.println(getModel() + " is driving smoothly on the road");
     }
     
     @Override
     public void startEngine() {
-        System.out.println("Starting " + numberOfDoors + "-door " + model + " with key fob");
+        System.out.println("Starting " + numberOfDoors + "-door " + getModel() + " with key fob");
     }
 }
 ```
-
 ```java
 public class Main {
     public static void main(String[] args) {
