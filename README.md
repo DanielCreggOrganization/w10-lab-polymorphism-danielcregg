@@ -5,7 +5,7 @@
 2. [Compile-time Polymorphism (Method Overloading)](#2-compile-time-polymorphism-method-overloading)
 3. [Reference Type Conversions](#3-reference-type-conversions)
 4. [Heterogeneous Collections](#4-heterogeneous-collections)
-5. [Benefits of Polymorphism](#5-benefits-of-polymorphism) 
+5. [Benefits of Polymorphism](#5-benefits-of-polymorphism)
 
 ## Lab Setup
 1. Create a package called `ie.atu.polymorphism`
@@ -115,9 +115,8 @@ Create a simple shape hierarchy that demonstrates method overriding:
    - A color property
    - Methods: getPerimeter() and describe()
 
-2. Create two subclasses (choose from):
+2. Create two subclasses:
    - Square
-   - Triangle
    - Circle
 
 3. In each subclass:
