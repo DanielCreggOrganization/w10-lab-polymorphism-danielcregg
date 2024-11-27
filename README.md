@@ -2,12 +2,11 @@
 
 ## Table of Contents
 1. [Definition and Basics of Polymorphism](#1-definition-and-basics-of-polymorphism)
-2. [Method Signatures](#2-method-signatures)
-3. [Compile-time Polymorphism](#3-compile-time-polymorphism)
-4. [Runtime Polymorphism](#4-runtime-polymorphism)
-5. [Reference Type Conversions](#5-reference-type-conversions)
-6. [Heterogeneous Collections](#6-heterogeneous-collections)
-7. [Benefits of Polymorphism](#7-benefits-of-polymorphism)
+2. [Compile-time Polymorphism (Method Overloading)](#2-compile-time-polymorphism-(Method Overloading))
+3. [Runtime Polymorphism](#4-runtime-polymorphism)
+4. [Reference Type Conversions](#5-reference-type-conversions)
+5. [Heterogeneous Collections](#6-heterogeneous-collections)
+6. [Benefits of Polymorphism](#7-benefits-of-polymorphism)
 
 ## Lab Setup
 1. Create a package called `ie.atu.polymorphism`
@@ -96,32 +95,55 @@ public class Main {
    - Create instances of each class
    - Call greet() on each instance
 
-## 2. Method Signatures
+## 2. Compile-time Polymorphism (Method Overloading)
 
 ### Learning Objective
-Understand what constitutes a method signature in Java and why it's important for method declaration and identification.
+Understand method overloading as a form of compile-time polymorphism, including how method signatures work and how the compiler resolves method calls.
+
+### Explanation
+Method overloading occurs when we create multiple methods in the same class with the same name but different parameter lists. The compiler determines which version of the method to call based on the method signature. Think of it like having multiple doors to the same room - while the destination (method name) is the same, how you get there (parameters) can be different.
+
+A method signature includes:
+- Method name
+- Number of parameters
+- Type of parameters
+- Order of parameters
+
+Note: Return type and parameter names are NOT part of the method signature.
 
 ### Example
 
 ```java
 public class Calculator {
-    // Basic addition with integers
+    // Basic integer addition
     public int add(int x, int y) {
+        System.out.println("Adding two integers");
         return x + y;
     }
     
-    // Addition with doubles
-    public double add(double x, double y) {
-        return x + y;
-    }
-    
-    // Addition with three parameters
+    // Three parameter addition
     public int add(int x, int y, int z) {
+        System.out.println("Adding three integers");
         return x + y + z;
     }
     
-    // This won't compile - same signature as first method
-    // public double add(int x, int y) { return x + y; }
+    // Double addition
+    public double add(double x, double y) {
+        System.out.println("Adding two doubles");
+        return x + y;
+    }
+    
+    // String concatenation
+    public String add(String x, String y) {
+        System.out.println("Concatenating strings");
+        return x + y;
+    }
+    
+    // Mixed parameter types
+    public double add(int x, double y) {
+        System.out.println("Adding integer and double");
+        return x + y;
+    }
 }
 ```
 
@@ -130,71 +152,41 @@ public class Main {
     public static void main(String[] args) {
         Calculator calc = new Calculator();
         
-        // Java knows which method to call based on the arguments
-        int sum1 = calc.add(5, 3);           // Calls first method
-        double sum2 = calc.add(5.5, 3.5);    // Calls second method
-        int sum3 = calc.add(5, 3, 2);        // Calls third method
-    }
-}
-```
-
-### DIY Exercise: Understanding Signatures
-Create a class Calculator with methods that demonstrate:
-1. Same name but different parameter count
-2. Same name but different parameter types
-3. Same name and parameter types but different order
-
-## 3. Compile-time Polymorphism
-
-### Learning Objective
-Understand method overloading as a form of compile-time polymorphism and how the compiler resolves method calls.
-
-### Example
-
-```java
-public class MathOperations {
-    // Integer addition
-    public int add(int a, int b) {
-        return a + b;
-    }
-    
-    // Double addition
-    public double add(double a, double b) {
-        return a + b;
-    }
-    
-    // Three-parameter addition
-    public int add(int a, int b, int c) {
-        return a + b + c;
-    }
-    
-    // String concatenation
-    public String add(String a, String b) {
-        return a + b;
-    }
-}
-```
-
-```java
-public class Main {
-    public static void main(String[] args) {
-        MathOperations math = new MathOperations();
+        // The compiler chooses the correct method based on arguments
+        int sum1 = calc.add(5, 3);                    // Calls first method
+        int sum2 = calc.add(5, 3, 2);                 // Calls second method
+        double sum3 = calc.add(5.5, 3.5);             // Calls third method
+        String result = calc.add("Hello ", "World");   // Calls fourth method
+        double sum4 = calc.add(5, 3.5);               // Calls fifth method
         
-        System.out.println(math.add(5, 3));         // Uses int version
-        System.out.println(math.add(5.5, 3.5));     // Uses double version
-        System.out.println(math.add(5, 3, 2));      // Uses three-parameter version
-        System.out.println(math.add("Hello ", "World")); // Uses String version
+        // This won't compile - no matching signature
+        // calc.add("Hello", 5);
     }
 }
 ```
+
+### Why This is Compile-time Polymorphism
+The term "compile-time" comes from when the decision about which method to call is made. The compiler looks at:
+1. The method name
+2. The arguments provided in the call
+3. The available method signatures
+
+Based on this information, it determines at compile time (before the program runs) which method should be called. If no matching method is found, you'll get a compilation error.
 
 ### DIY Exercise: MessageFormatter
-Create a class MessageFormatter with overloaded format methods:
-1. format(String message) - returns message in uppercase
-2. format(String message, boolean uppercase) - returns message in upper or lowercase
-3. format(String message, String prefix) - returns message with prefix
+Create a class MessageFormatter that demonstrates method overloading:
 
-## 4. Runtime Polymorphism
+1. Create methods that format messages in different ways:
+   - format(String message) - returns message in uppercase
+   - format(String message, boolean uppercase) - returns message in upper or lowercase
+   - format(String message, String prefix) - returns message with prefix
+   - format(String message, String prefix, String suffix) - returns message with prefix and suffix
+
+2. In your main method, demonstrate calling each version of the format method with appropriate arguments.
+
+This exercise will help you practice creating methods with different signatures and understand how the compiler chooses the correct method to call.
+
+## 3. Runtime Polymorphism
 
 ### Learning Objective
 Understand method overriding and dynamic method dispatch in runtime polymorphism.
@@ -278,7 +270,7 @@ Create a hierarchy of shapes:
 2. Subclasses Circle and Rectangle that override calculateArea()
 3. Demonstrate runtime polymorphism using Shape references
 
-## 5. Reference Type Conversions
+## 4. Reference Type Conversions
 
 ### Example
 
@@ -360,7 +352,7 @@ public class TypeConversionDemo {
     }
 }
 ```
-## 6. Heterogeneous Collections
+## 5. Heterogeneous Collections
 
 ### Learning Objective
 Understand how to use polymorphism to create and manage collections containing different types of objects that share a common parent class, a powerful real-world application of polymorphism.
@@ -570,7 +562,7 @@ Create a school management system that demonstrates heterogeneous collections:
    - Can display all people's information
    - Can find people by role
    - Can perform role-specific operations
-## 7. Benefits of Polymorphism
+## 6. Benefits of Polymorphism
 
 ### Learning Objective
 Understand the practical advantages of using polymorphism in real-world applications and how it improves code design, maintainability, and reusability.
